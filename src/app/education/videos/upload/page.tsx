@@ -108,7 +108,7 @@ export default function UploadPage() {
       )}
 
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
           <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white shadow-2xl">
             {/* Header */}
             <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-white px-8 py-5 rounded-t-2xl">
@@ -271,7 +271,12 @@ function Field({ label, required, hint, children }: { label: string; required?: 
         select.field-input option[value=""] {
           color: #9ca3af;
         }
-      `}</style>
+      `}
+      .modal-body::-webkit-scrollbar { width: 6px; }
+      .modal-body::-webkit-scrollbar-track { background: transparent; }
+      .modal-body::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+      .modal-body::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
+    </style>
       {children}
       {hint && <p className="mt-1 text-xs text-gray-400">{hint}</p>}
     </div>
