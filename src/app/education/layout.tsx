@@ -8,7 +8,7 @@ import {
   ChevronRight, Menu, X, Shield, Film,
 } from 'lucide-react';
 
-/* ââ Login Screen ââ */
+/* Ã¢ÂÂÃ¢ÂÂ Login Screen Ã¢ÂÂÃ¢ÂÂ */
 function LoginScreen() {
   const { signIn } = useAuth();
   const [email, setEmail] = useState('');
@@ -27,10 +27,10 @@ function LoginScreen() {
 
   return (
     <div className="min-h-screen flex bg-slate-50">
-      {/* Left â branding panel */}
+      {/* Left Ã¢ÂÂ branding panel */}
       <div className="hidden lg:flex lg:w-[480px] flex-col justify-between p-12 bg-slate-900">
         <div>
-          <img src="/rbs-logo-dark.jpg" alt="RBS" className="h-12 rounded mb-2" />
+          <img src="https://twhkpxvblrkwlezgluqf.supabase.co/storage/v1/object/public/Logos/RBS%20logo.jpg" alt="RBS" className="h-12 rounded mb-2" />
         </div>
         <div className="max-w-sm">
           <h2 className="text-2xl font-bold text-white font-[family-name:var(--font-display)] leading-tight mb-3">
@@ -54,14 +54,14 @@ function LoginScreen() {
             ))}
           </div>
         </div>
-        <p className="text-xs text-slate-600">Â© 2026 Resurgence Biomedical Sciences</p>
+        <p className="text-xs text-slate-600">ÃÂ© 2026 Resurgence Biomedical Sciences</p>
       </div>
 
-      {/* Right â login form */}
+      {/* Right Ã¢ÂÂ login form */}
       <div className="flex-1 flex items-center justify-center px-6">
         <div className="w-full max-w-sm">
           <div className="text-center mb-8 lg:hidden">
-            <img src="/rbs-logo-dark.jpg" alt="RBS" className="h-14 mx-auto mb-5 rounded" />
+            <img src="https://twhkpxvblrkwlezgluqf.supabase.co/storage/v1/object/public/Logos/RBS%20logo.jpg" alt="RBS" className="h-14 mx-auto mb-5 rounded" />
           </div>
           <div className="lg:hidden text-center mb-6">
             <h1 className="text-xl font-bold text-slate-900 font-[family-name:var(--font-display)]">
@@ -109,7 +109,7 @@ function LoginScreen() {
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
                     <span className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                    Signing inâ¦
+                    Signing inÃ¢ÂÂ¦
                   </span>
                 ) : 'Sign In'}
               </button>
@@ -123,7 +123,7 @@ function LoginScreen() {
   );
 }
 
-/* ââ Sidebar Navigation ââ */
+/* Ã¢ÂÂÃ¢ÂÂ Sidebar Navigation Ã¢ÂÂÃ¢ÂÂ */
 const sidebarNav = [
   { href: '/education', label: 'Course Catalog', icon: BookOpen, exact: true },
   { href: '/education/my-courses', label: 'My Progress', icon: BarChart3 },
@@ -158,7 +158,7 @@ function Sidebar({ mobile, onClose }: { mobile?: boolean; onClose?: () => void }
         <div className="px-5 py-5 border-b border-white/[0.06]">
           <div className="flex items-center justify-between">
             <button onClick={() => handleNavigate('/education')} className="flex items-center gap-3">
-              <img src="/rbs-logo-dark.jpg" alt="RBS" className="h-9 rounded" />
+              <img src="https://twhkpxvblrkwlezgluqf.supabase.co/storage/v1/object/public/Logos/RBS%20logo.jpg" alt="RBS" className="h-9 rounded" />
               <div>
                 <span className="block text-sm font-semibold text-white leading-none">RBS Education</span>
                 <span className="block text-[10px] text-slate-500 mt-0.5">Clinical Training</span>
@@ -239,7 +239,7 @@ function Sidebar({ mobile, onClose }: { mobile?: boolean; onClose?: () => void }
   );
 }
 
-/* ââ Top Bar ââ */
+/* Ã¢ÂÂÃ¢ÂÂ Top Bar Ã¢ÂÂÃ¢ÂÂ */
 function TopBar({ onMenuClick }: { onMenuClick: () => void }) {
   const pathname = usePathname();
 
@@ -280,7 +280,7 @@ function TopBar({ onMenuClick }: { onMenuClick: () => void }) {
   );
 }
 
-/* ââ Shell ââ */
+/* Ã¢ÂÂÃ¢ÂÂ Shell Ã¢ÂÂÃ¢ÂÂ */
 function AuthenticatedShell({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -290,7 +290,7 @@ function AuthenticatedShell({ children }: { children: ReactNode }) {
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 rounded-full border-2 border-slate-200 border-t-slate-600 animate-spin" />
-          <p className="text-xs text-slate-400">Loadingâ¦</p>
+          <p className="text-xs text-slate-400">LoadingÃ¢ÂÂ¦</p>
         </div>
       </div>
     );
@@ -312,7 +312,7 @@ function AuthenticatedShell({ children }: { children: ReactNode }) {
         </main>
         <footer className="border-t border-slate-200 mt-auto">
           <div className="max-w-5xl px-6 lg:px-10 py-4 flex items-center justify-between">
-            <p className="text-[11px] text-slate-400">Â© 2026 Resurgence Biomedical Sciences</p>
+            <p className="text-[11px] text-slate-400">ÃÂ© 2026 Resurgence Biomedical Sciences</p>
             <img src="/rbs-logo-light.jpg" alt="" className="h-4 w-auto opacity-20" />
           </div>
         </footer>
