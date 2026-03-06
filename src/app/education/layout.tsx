@@ -8,7 +8,7 @@ import {
   ChevronRight, Menu, X, Shield, Film,
 } from 'lucide-react';
 
-/* Ã¢ÂÂÃ¢ÂÂ Login Screen Ã¢ÂÂÃ¢ÂÂ */
+/* ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ Login Screen ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ */
 function LoginScreen() {
   const { signIn } = useAuth();
   const [email, setEmail] = useState('');
@@ -27,7 +27,7 @@ function LoginScreen() {
 
   return (
     <div className="min-h-screen flex bg-slate-50">
-      {/* Left Ã¢ÂÂ branding panel */}
+      {/* Left ÃÂ¢ÃÂÃÂ branding panel */}
       <div className="hidden lg:flex lg:w-[480px] flex-col justify-between p-12 bg-slate-900">
         <div>
           <img src="https://twhkpxvblrkwlezgluqf.supabase.co/storage/v1/object/public/Logos/RBS%20logo.jpg" alt="RBS" className="h-12 rounded mb-2" />
@@ -54,10 +54,10 @@ function LoginScreen() {
             ))}
           </div>
         </div>
-        <p className="text-xs text-slate-600">ÃÂ© 2026 Resurgence Biomedical Sciences</p>
+        <p className="text-xs text-slate-600">ÃÂÃÂ© 2026 Resurgence Biomedical Sciences</p>
       </div>
 
-      {/* Right Ã¢ÂÂ login form */}
+      {/* Right ÃÂ¢ÃÂÃÂ login form */}
       <div className="flex-1 flex items-center justify-center px-6">
         <div className="w-full max-w-sm">
           <div className="text-center mb-8 lg:hidden">
@@ -109,7 +109,7 @@ function LoginScreen() {
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
                     <span className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                    Signing inÃ¢ÂÂ¦
+                    Signing inÃÂ¢ÃÂÃÂ¦
                   </span>
                 ) : 'Sign In'}
               </button>
@@ -123,7 +123,7 @@ function LoginScreen() {
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ Sidebar Navigation Ã¢ÂÂÃ¢ÂÂ */
+/* ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ Sidebar Navigation ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ */
 const sidebarNav = [
   { href: '/education', label: 'Course Catalog', icon: BookOpen, exact: true },
   { href: '/education/my-courses', label: 'My Progress', icon: BarChart3 },
@@ -138,7 +138,6 @@ function Sidebar({ mobile, onClose }: { mobile?: boolean; onClose?: () => void }
 
   const completedLessons = progress?.length || 0;
   const passedQuizzes = quizAttempts?.filter(q => q.passed)?.length || 0;
-
   const filteredNav = sidebarNav.filter(item => !item.adminOnly || isAdmin);
 
   const handleNavigate = (href: string) => {
@@ -155,14 +154,10 @@ function Sidebar({ mobile, onClose }: { mobile?: boolean; onClose?: () => void }
 
       <div className="flex flex-col h-full relative z-10 bg-slate-900">
         {/* Logo */}
-        <div className="px-5 py-5 border-b border-white/[0.06]">
+        <div className="px-5 py-6 border-b border-white/[0.06]">
           <div className="flex items-center justify-between">
-            <button onClick={() => handleNavigate('/education')} className="flex items-center gap-3">
-              <img src="https://twhkpxvblrkwlezgluqf.supabase.co/storage/v1/object/public/Logos/RBS%20logo.jpg" alt="RBS" className="h-9 rounded" />
-              <div>
-                <span className="block text-sm font-semibold text-white leading-none">RBS Education</span>
-                <span className="block text-[10px] text-slate-500 mt-0.5">Clinical Training</span>
-              </div>
+            <button onClick={() => handleNavigate('/education')} className="block">
+              <img src="https://twhkpxvblrkwlezgluqf.supabase.co/storage/v1/object/public/Logos/RBS%20logo.jpg" alt="RBS" className="h-10 rounded" />
             </button>
             {mobile && (
               <button onClick={onClose} className="text-slate-500 hover:text-white transition-colors lg:hidden">
@@ -171,38 +166,39 @@ function Sidebar({ mobile, onClose }: { mobile?: boolean; onClose?: () => void }
             )}
           </div>
         </div>
-
         {/* User card */}
         <div className="px-4 py-4">
-          <div className="rounded-lg p-3.5 border border-white/[0.06]">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-9 h-9 rounded-full bg-navy-700 flex items-center justify-center text-sm font-semibold text-white">
-                {profile?.full_name?.charAt(0) || '?'}
-              </div>
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-white truncate">{profile?.full_name || 'User'}</p>
-                <p className="text-[10px] text-slate-500 capitalize">{profile?.role || 'member'}</p>
-              </div>
+          <div className="flex items-center gap-3 px-3 py-3 rounded-lg bg-white/[0.04]">
+            <div className="w-9 h-9 rounded-full bg-navy-700 flex items-center justify-center text-sm font-semibold text-white shrink-0">
+              {profile?.full_name?.charAt(0) || '?'}
             </div>
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { value: enrollments?.length || 0, label: 'Courses' },
-                { value: completedLessons, label: 'Lessons' },
-                { value: passedQuizzes, label: 'Passed' },
-              ].map(s => (
-                <div key={s.label} className="text-center">
-                  <p className="text-base font-semibold text-white">{s.value}</p>
-                  <p className="text-[9px] text-slate-500 uppercase tracking-wider">{s.label}</p>
-                </div>
-              ))}
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-white truncate">{profile?.full_name}</p>
+              <p className="text-xs text-slate-400 truncate">{isAdmin ? 'Admin' : 'Staff'}</p>
+            </div>
+          </div>
+          <div className="flex items-center justify-between mt-3 px-1">
+            <div className="text-center">
+              <p className="text-sm font-semibold text-white">{enrollments?.length || 0}</p>
+              <p className="text-[10px] text-slate-500 uppercase tracking-wider">Courses</p>
+            </div>
+            <div className="w-px h-6 bg-white/[0.06]" />
+            <div className="text-center">
+              <p className="text-sm font-semibold text-white">{completedLessons}</p>
+              <p className="text-[10px] text-slate-500 uppercase tracking-wider">Lessons</p>
+            </div>
+            <div className="w-px h-6 bg-white/[0.06]" />
+            <div className="text-center">
+              <p className="text-sm font-semibold text-white">{passedQuizzes}</p>
+              <p className="text-[10px] text-slate-500 uppercase tracking-wider">Passed</p>
             </div>
           </div>
         </div>
 
-        {/* Nav */}
-        <nav className="flex-1 px-3 space-y-0.5">
-          <p className="px-3 pt-2 pb-2 text-[10px] font-medium text-slate-600 uppercase tracking-wider">Navigation</p>
-          {filteredNav.map(item => {
+        {/* Navigation */}
+        <nav className="flex-1 px-3 py-2 space-y-1">
+          <p className="px-3 pt-2 pb-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Navigation</p>
+          {filteredNav.map((item) => {
             const isActive = item.exact
               ? pathname === item.href
               : pathname === item.href || pathname.startsWith(item.href + '/');
@@ -220,7 +216,6 @@ function Sidebar({ mobile, onClose }: { mobile?: boolean; onClose?: () => void }
             );
           })}
         </nav>
-
         {/* Portal link + sign out */}
         <div className="px-3 pb-3 space-y-1 border-t border-white/[0.06] pt-3 mt-2">
           <a href="https://rbs-portal.vercel.app/dashboard"
@@ -239,7 +234,6 @@ function Sidebar({ mobile, onClose }: { mobile?: boolean; onClose?: () => void }
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ Top Bar Ã¢ÂÂÃ¢ÂÂ */
 function TopBar({ onMenuClick }: { onMenuClick: () => void }) {
   const pathname = usePathname();
 
@@ -280,7 +274,7 @@ function TopBar({ onMenuClick }: { onMenuClick: () => void }) {
   );
 }
 
-/* Ã¢ÂÂÃ¢ÂÂ Shell Ã¢ÂÂÃ¢ÂÂ */
+/* ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ Shell ÃÂ¢ÃÂÃÂÃÂ¢ÃÂÃÂ */
 function AuthenticatedShell({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -290,7 +284,7 @@ function AuthenticatedShell({ children }: { children: ReactNode }) {
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 rounded-full border-2 border-slate-200 border-t-slate-600 animate-spin" />
-          <p className="text-xs text-slate-400">LoadingÃ¢ÂÂ¦</p>
+          <p className="text-xs text-slate-400">LoadingÃÂ¢ÃÂÃÂ¦</p>
         </div>
       </div>
     );
@@ -312,8 +306,8 @@ function AuthenticatedShell({ children }: { children: ReactNode }) {
         </main>
         <footer className="border-t border-slate-200 mt-auto">
           <div className="max-w-5xl px-6 lg:px-10 py-4 flex items-center justify-between">
-            <p className="text-[11px] text-slate-400">ÃÂ© 2026 Resurgence Biomedical Sciences</p>
-            <img src="/rbs-logo-light.jpg" alt="" className="h-4 w-auto opacity-20" />
+            <p className="text-[11px] text-slate-400">ÃÂÃÂ© 2026 Resurgence Biomedical Sciences</p>
+            <img src="https://twhkpxvblrkwlezgluqf.supabase.co/storage/v1/object/public/Logos/RBS%20logo.jpg" alt="" className="h-4 w-auto opacity-20" />
           </div>
         </footer>
       </div>
