@@ -3,11 +3,15 @@ import { createClient } from "@supabase/supabase-js";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-// Lazy-init to avoid build-time errors when env vars are not yet set
+/* ------------------------------------------------------------------ */
+/*  Lazy-init clients (env vars not available at build time on Vercel) */
+/* ------------------------------------------------------------------ */
+
+// Use <any, any, any> to bypass strict table type inference
 let _supabaseAdmin: ReturnType<typeof createClient> | null = null;
 function getSupabase() {
   if (!_supabaseAdmin) {
-    _supabaseAdmin = createClient(
+    _supabaseAdmin = createClient<any, any, any>(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
     );
@@ -31,12 +35,16 @@ function getS3() {
 
 const BUCKET = process.env.S3_TRAINING_BUCKET ?? "rbs-training-media";
 
+/* ------------------------------------------------------------------ */
+/*  GET  /api/videos — list videos (with optional search)              */
+/* ------------------------------------------------------------------ */
 export async function GET(req: NextRequest) {
-  const supabaseAdmin = getSupabase();
   const { searchParams } = req.nextUrl;
   const search = searchParams.get("q");
   const category = searchParams.get("category");
   const duration = searchParams.get("duration");
+
+  const supabaseAdmin = getSupabase();
 
   let query = supabaseAdmin
     .from("training_videos")
@@ -46,32 +54,64 @@ export async function GET(req: NextRequest) {
   if (category) query = query.eq("category", category);
   if (duration) query = query.eq("duration_category", duration);
 
+  // Full-text search via the fts tsvector column
   if (search) {
-    const tsQuery = search.trim().split(/\s+/).map((w) => w + ":*").join(" & ");
+    const tsQuery = search
+      .trim()
+      .split(/\s+/)
+      .map((w: string) => w + ":*")
+      .join(" & ");
     query = query.textSearch("fts", tsQuery);
   }
 
   const { data, error } = await query;
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
   return NextResponse.json(data);
 }
 
+/* ------------------------------------------------------------------ */
+/*  POST /api/videos — create video record + return presigned upload URL */
+/* ------------------------------------------------------------------ */
 export async function POST(req: NextRequest) {
-  const supabaseAdmin = getSupabase();
-  const s3 = getS3();
   try {
     const body = await req.json();
-    const { title, description, category, sub_category, duration_category, confidentiality, priority, location, notes, date_recorded, fileName, fileType, fileSize } = body;
 
+    const {
+      title,
+      description,
+      category,
+      sub_category,
+      duration_category,
+      confidentiality,
+      priority,
+      location,
+      notes,
+      date_recorded,
+      fileName,
+      fileType,
+      fileSize,
+    } = body;
+
+    // Validate required fields
     if (!title || !category || !duration_category || !fileName) {
-      return NextResponse.json({ error: "title, category, duration_category, and fileName are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "title, category, duration_category, and fileName are required" },
+        { status: 400 },
+      );
     }
 
+    // Build S3 key: category/timestamp-filename
     const ts = Date.now();
     const safeCategory = category.replace(/[^a-zA-Z0-9]/g, "_").toLowerCase();
     const safeName = fileName.replace(/[^a-zA-Z0-9._-]/g, "_");
     const s3Key = "videos/" + safeCategory + "/" + ts + "-" + safeName;
 
+    const supabaseAdmin = getSupabase();
+
+    // 1. Insert metadata into Supabase
     const { data: video, error: dbError } = await supabaseAdmin
       .from("training_videos")
       .insert({
@@ -100,15 +140,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: dbError.message }, { status: 500 });
     }
 
+    // 2. Generate presigned PUT URL for direct browser upload to S3
     const command = new PutObjectCommand({
       Bucket: BUCKET,
       Key: s3Key,
       ContentType: fileType || "video/mp4",
     });
 
-    const uploadUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+    const s3Client = getS3();
+    const uploadUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
 
-    return NextResponse.json({ videoId: video.id, uploadUrl, s3Key });
+    return NextResponse.json({
+      videoId: video.id,
+      uploadUrl,
+      s3Key,
+    });
   } catch (err: any) {
     console.error("Upload API error:", err);
     return NextResponse.json({ error: err.message ?? "Internal error" }, { status: 500 });
