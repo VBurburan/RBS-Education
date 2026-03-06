@@ -148,7 +148,7 @@ export default function UploadPage() {
               </div>
 
               {/* Sub-category */}
-              <Field label="Sub-category" hint="Optional â e.g., MHP-2 Washout, Femoral Approach">
+              <Field label="Sub-category" hint="Optional -- e.g., MHP-2 Washout, Femoral Approach">
                 <input type="text" placeholder="e.g., MHP-2 Washout" value={form.sub_category} onChange={(e) => set("sub_category", e.target.value)} className="field-input" />
               </Field>
 

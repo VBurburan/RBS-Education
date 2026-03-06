@@ -54,7 +54,7 @@ function LoginScreen() {
             ))}
           </div>
         </div>
-        <p className="text-xs text-slate-600">ÃÂÃÂ© 2026 Resurgence Biomedical Sciences</p>
+        <p className="text-xs text-slate-600">(c) 2026 Resurgence Biomedical Sciences</p>
       </div>
 
       {/* Right ÃÂ¢ÃÂÃÂ login form */}
@@ -306,7 +306,7 @@ function AuthenticatedShell({ children }: { children: ReactNode }) {
         </main>
         <footer className="border-t border-slate-200 mt-auto">
           <div className="max-w-5xl px-6 lg:px-10 py-4 flex items-center justify-between">
-            <p className="text-[11px] text-slate-400">ÃÂÃÂ© 2026 Resurgence Biomedical Sciences</p>
+            <p className="text-[11px] text-slate-400">(c) 2026 Resurgence Biomedical Sciences</p>
             <img src="https://twhkpxvblrkwlezgluqf.supabase.co/storage/v1/object/public/Logos/RBS%20logo.jpg" alt="" className="h-4 w-auto opacity-20" />
           </div>
         </footer>
