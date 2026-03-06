@@ -7,11 +7,11 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 /*  Lazy-init clients (env vars not available at build time on Vercel) */
 /* ------------------------------------------------------------------ */
 
-// Use <any, any, any> to bypass strict table type inference
-let _supabaseAdmin: ReturnType<typeof createClient> | null = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let _supabaseAdmin: any = null;
 function getSupabase() {
   if (!_supabaseAdmin) {
-    _supabaseAdmin = createClient<any, any, any>(
+    _supabaseAdmin = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
     );
@@ -54,7 +54,6 @@ export async function GET(req: NextRequest) {
   if (category) query = query.eq("category", category);
   if (duration) query = query.eq("duration_category", duration);
 
-  // Full-text search via the fts tsvector column
   if (search) {
     const tsQuery = search
       .trim()
@@ -95,7 +94,6 @@ export async function POST(req: NextRequest) {
       fileSize,
     } = body;
 
-    // Validate required fields
     if (!title || !category || !duration_category || !fileName) {
       return NextResponse.json(
         { error: "title, category, duration_category, and fileName are required" },
@@ -103,7 +101,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Build S3 key: category/timestamp-filename
     const ts = Date.now();
     const safeCategory = category.replace(/[^a-zA-Z0-9]/g, "_").toLowerCase();
     const safeName = fileName.replace(/[^a-zA-Z0-9._-]/g, "_");
@@ -111,7 +108,6 @@ export async function POST(req: NextRequest) {
 
     const supabaseAdmin = getSupabase();
 
-    // 1. Insert metadata into Supabase
     const { data: video, error: dbError } = await supabaseAdmin
       .from("training_videos")
       .insert({
@@ -140,7 +136,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: dbError.message }, { status: 500 });
     }
 
-    // 2. Generate presigned PUT URL for direct browser upload to S3
     const command = new PutObjectCommand({
       Bucket: BUCKET,
       Key: s3Key,
