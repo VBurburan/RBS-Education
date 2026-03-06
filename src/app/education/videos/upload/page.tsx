@@ -271,11 +271,12 @@ function Field({ label, required, hint, children }: { label: string; required?: 
         select.field-input option[value=""] {
           color: #9ca3af;
         }
-      `}
+      
       .modal-body::-webkit-scrollbar { width: 6px; }
       .modal-body::-webkit-scrollbar-track { background: transparent; }
       .modal-body::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
       .modal-body::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
+    `}
     </style>
       {children}
       {hint && <p className="mt-1 text-xs text-gray-400">{hint}</p>}
